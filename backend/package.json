@@ -3,6 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"npm run auth\" \"npm run profile\" \"npm run job\" \"npm run application\" \"npm run notification\" \"npm run skills\" \"npm run quiz\" \"npm run announcement\"",
+    "dev": "concurrently \"npm run auth:dev\" \"npm run profile:dev\" \"npm run job:dev\" \"npm run application:dev\" \"npm run notification:dev\" \"npm run skills:dev\" \"npm run quiz:dev\" \"npm run announcement:dev\"",
+    "auth": "cd auth-service && npm start",
+    "auth:dev": "cd auth-service && npm start",
+    "profile": "cd profile-service && npm start",
+    "profile:dev": "cd profile-service && npm start",
+    "job": "cd job-service && npm start",
+    "job:dev": "cd job-service && npm start",
+    "application": "cd application-service && npm start",
+    "application:dev": "cd application-service && npm start",
+    "notification": "cd notification-service && npm start",
+    "notification:dev": "cd notification-service && npm start",
+    "skills": "cd skills-service && npm start",
+    "skills:dev": "cd skills-service && npm start",
+    "quiz": "cd quiz-service && npm start",
+    "quiz:dev": "cd quiz-service && npm start",
+    "announcement": "cd announcement-service && npm start",
+    "announcement:dev": "cd announcement-service && npm start",
+    "install:all": "npm install && for /d %i in (*-service) do (cd %i && npm install && cd ..)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,6 +29,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   },
   "description": ""
 }

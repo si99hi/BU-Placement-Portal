@@ -1,315 +1,217 @@
-# BU PLAC - University Placement Management System
+# 🎓 BU Placement Portal
 
-A comprehensive microservices-based placement management platform for universities, enabling students to discover job opportunities, apply for positions, and participate in interviews, while recruiters can post jobs and manage applications.
+A full-stack **Microservices-based Placement Management System** built for Bennett University. It connects Students, Recruiters, and the Training & Placement Office (TPO) in one unified platform — featuring AI-powered mock interviews, job applications, hackathons, quizzes, coding tasks, real-time messaging, and more.
 
-## 🏗️ Architecture
+---
 
-This project follows a **microservices architecture** with:
-- **API Gateway** (Nginx) - Central routing and CORS handling
-- **12 Backend Services** - Each handling specific domain logic
-- **MongoDB** - Data persistence across services
-- **Python AI Services** - Resume parsing, skill gap analysis, and applicant shortlisting
-- **Docker & Docker Compose** - Containerized deployment
+## 🚀 Quick Start (Docker)
 
-### Services Overview
+> **Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) must be installed and running.
 
-| Service | Port | Purpose |
-|---------|------|---------|
-| auth-service | 5001 | User authentication & JWT token management |
-| profile-service | 5002 | Student profile & resume management |
-| job-service | 5003 | Job postings by recruiters |
-| application-service | 5004 | Job applications tracking |
-| notification-service | 5005 | Email/push notifications |
-| skills-service | 5006 | Skill management & recommendations |
-| quiz-service | 5007 | Technical assessment quizzes |
-| announcement-service | 5008 | University announcements |
-| hackathon-service | 5009 | Hackathon event management |
-| task-service | 5010 | Task & assignment tracking |
-| interview-service | 5011 | Interview scheduling & AI-assisted interviews |
-| messaging-service | 5012 | Real-time messaging between users |
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd BU_PLAC
 
-## 🚀 Quick Start
+# 2. Set up your environment variables
+cp .env.example .env
+# Edit .env with your actual credentials (see Environment Variables section)
 
-### Prerequisites
-- Node.js 18+ & npm
-- Python 3.10+
-- Docker & Docker Compose
-- MongoDB (optional if using Docker)
+# 3. Start all services
+docker compose up --build
 
-### Installation
+# 4. Open in browser
+http://localhost:3000
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone <repo-url>
-   cd bu-plac
-   ```
+> The API Gateway is exposed at `http://localhost:5000`. The React frontend is at `http://localhost:3000`.
 
-2. **Set up environment variables**
-   ```bash
-   # Root .env
-   MONGODB_URI=mongodb://localhost:27017/placement
-   JWT_SECRET=your-secret-key
-   GEMINI_API_KEY=your-gemini-api-key
-   ```
-
-3. **Install dependencies**
-   ```bash
-   # Backend services
-   cd backend
-   npm install
-
-   # Frontend
-   cd ../frontend
-   npm install
-   ```
-
-4. **Start with Docker Compose**
-   ```bash
-   docker-compose up -d
-   ```
-   The API Gateway will be available at `http://localhost:80`
-
-5. **Or start services individually**
-   ```bash
-   # Terminal 1: Auth Service
-   cd backend/auth-service
-   npm start
-
-   # Terminal 2: Profile Service
-   cd backend/profile-service
-   npm start
-
-   # Continue for other services...
-   ```
-
-## 📋 API Endpoints
-
-All endpoints are prefixed with `/api` and routed through the Nginx gateway.
-
-### Authentication (`/api/auth`)
-- `POST /register` - Register new user
-- `POST /login` - Login & get JWT token
-- `GET /profile` - Get current user profile (requires auth)
-
-### Profile (`/api/profile`)
-- `POST /profile` - Create/update student profile
-- `GET /profile` - Get student profile
-- `POST /resume` - Upload resume (multipart/form-data)
-
-### Jobs (`/api/jobs`)
-- `GET /` - List all jobs
-- `POST /` - Post new job (recruiter only)
-- `GET /my-jobs` - Get recruiter's jobs
-
-### Applications (`/api/applications`)
-- `POST /` - Submit job application
-- `GET /` - Get user's applications
-- `GET /:id` - Get application details
-
-### Interviews (`/api/interview`)
-- `POST /start` - Start AI interview
-- `POST /answer` - Submit answer during interview
-- `POST /end` - End interview session
-- `GET /:id` - Get interview details
-
-### Messaging (`/api/messaging`)
-- `POST /send` - Send message
-- `GET /conversations` - Get user conversations
-- WebSocket support for real-time messaging
-
-## 🤖 AI Features
-
-### Interview Service Integration
-Uses **Google Gemini AI** for intelligent interview simulations:
-- Dynamic question generation based on job/skills
-- Real-time answer evaluation
-- Personalized feedback
-- Interview transcript analysis
-
-### Resume Parser
-- PDF text extraction
-- Skill & education detection using spaCy NLP
-- Structured data extraction
-
-### Skill Gap Analysis
-- Compare student skills vs job requirements
-- Recommend learning resources (YouTube, Coursera)
-
-### Applicant Shortlisting
-- TF-IDF vectorization of job descriptions & resumes
-- Cosine similarity scoring
-- Ranked candidate recommendations
-
-## 🔐 Authentication
-
-- JWT-based token authentication
-- Roles: `student`, `recruiter`, `admin`
-- Recruiters require admin approval before posting jobs
-- Token expiration: 7 days (configurable)
-
-## 📦 Tech Stack
-
-**Backend:**
-- Node.js + Express.js
-- MongoDB + Mongoose
-- JWT + bcryptjs
-- Axios for external API calls
-
-**Frontend:**
-- React (setup in `/frontend`)
-- Responsive UI components
-
-**AI/ML:**
-- FastAPI (Python)
-- scikit-learn (TF-IDF, cosine similarity)
-- spaCy (NLP)
-- PyPDF2 (PDF parsing)
-- Google Generative AI (Gemini)
-
-**DevOps:**
-- Docker & Docker Compose
-- Nginx (API Gateway)
-- MongoDB
+---
 
 ## 📁 Project Structure
 
 ```
-bu-plac/
-├── backend/
-│   ├── auth-service/
-│   ├── profile-service/
-│   ├── job-service/
-│   ├── application-service/
-│   ├── interview-service/          # AI-powered interviews
-│   ├── messaging-service/
-│   └── ... (other services)
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   └── Dockerfile
-├── scripts/
-│   ├── check_endpoints.ps1
-│   ├── messaging_e2e.ps1
-│   └── migrate-job-defaults.js
-├── nginx.conf                       # API Gateway config
-├── docker-compose.yml
-└── package.json
+BU_PLAC/
+├── 📁 frontend/                   # React.js SPA
+│   └── src/
+│       ├── pages/                 # All route-level page components
+│       ├── components/            # Shared UI components (Navbar, Cards, etc.)
+│       ├── context/               # AuthContext (global auth state)
+│       ├── services/
+│       │   └── api.js             # Axios API client for all services
+│       ├── assets/                # Images, logos, company icons
+│       ├── App.js                 # Root router
+│       └── theme.js               # MUI theme configuration
+│
+├── 📁 backend/
+│   ├── auth-service/              # 🔐 Auth, OTP, JWT (Port 5001)
+│   ├── profile-service/           # 👤 Student profiles & file uploads (Port 5002)
+│   ├── job-service/               # 💼 Job listings management (Port 5003)
+│   ├── application-service/       # 📋 Job applications workflow (Port 5004)
+│   ├── notification-service/      # 🔔 In-app notifications (Port 5005)
+│   ├── skills-service/            # 🛠️ Skills catalog & search (Port 5006)
+│   ├── quiz-service/              # 📝 MCQ quizzes per job (Port 5007)
+│   ├── announcement-service/      # 📢 TPO announcements (Port 5008)
+│   ├── hackathon-service/         # 🏆 Hackathon events & registrations (Port 5009)
+│   ├── task-service/              # 💻 Coding tasks via Judge0 (Port 5010)
+│   ├── interview-service/         # 🤖 AI Mock Interviews via Gemini (Port 5011)
+│   └── messaging-service/         # 💬 Real-time messaging (Port 5012)
+│
+├── 📁 nginx.conf                  # API Gateway routing config
+├── 📄 docker-compose.yml          # Full container orchestration
+├── 📄 .env                        # Environment variables (do not commit)
+└── 📄 README.md
 ```
-
-## 🔧 Configuration
-
-### Nginx Gateway ([nginx.conf](nginx.conf))
-- Routes requests to appropriate microservices
-- Handles CORS for all endpoints
-- Forwards authentication headers
-- Max upload size: 10MB
-
-### Environment Variables
-
-**Core Services:**
-```env
-MONGODB_URI=mongodb://localhost:27017/placement
-JWT_SECRET=your-jwt-secret
-JWT_EXPIRES_IN=7d
-NODE_ENV=production
-```
-
-**AI Services:**
-```env
-GEMINI_API_KEY=your-api-key
-```
-
-## 📝 Database Models
-
-### User (Auth Service)
-```javascript
-{
-  name: String,
-  email: String (unique),
-  password: String (hashed),
-  role: enum['student', 'recruiter', 'admin'],
-  approved: Boolean,
-  createdAt: Date
-}
-```
-
-### Student Profile
-```javascript
-{
-  authId: String,
-  name: String,
-  email: String,
-  cgpa: Number,
-  skills: [String],
-  resumeUrl: String,
-  parsed: Boolean
-}
-```
-
-### Interview Session
-```javascript
-{
-  studentId: String,
-  jobId: String,
-  status: enum['ongoing', 'completed'],
-  chatHistory: [{role, message}],
-  score: Number,
-  feedback: String,
-  createdAt: Date
-}
-```
-
-## 🧪 Testing
-
-### Check API Endpoints
-```bash
-# PowerShell
-.\scripts\check_endpoints.ps1
-
-# Or manually
-curl http://localhost/health
-```
-
-### End-to-End Messaging Test
-```bash
-.\scripts\messaging_e2e.ps1
-```
-
-### Run Service Tests
-```bash
-cd backend/interview-service
-npm test
-```
-
-## 🚀 Deployment
-
-### Docker Compose
-```bash
-docker-compose up -d
-```
-
-### Individual Service Build
-```bash
-cd backend/auth-service
-docker build -t auth-service:latest .
-docker run -p 5001:5001 auth-service:latest
-```
-
-## 🤝 Contributing
-
-1. Create feature branch: `git checkout -b feature/your-feature`
-2. Commit changes: `git commit -am 'Add feature'`
-3. Push to branch: `git push origin feature/your-feature`
-4. Create Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see LICENSE file for details.
-
-## 📧 Support
-
-For issues or questions, please open an issue on GitHub or contact the development team.
 
 ---
 
-**Last Updated:** 2024 | **Version:** 1.0.0
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| **React 18** | SPA Framework |
+| **React Router v6** | Client-side routing |
+| **Material UI (MUI v5)** | Component library & theming |
+| **Axios** | HTTP client |
+| **React Google reCAPTCHA** | Bot protection on auth forms |
+
+### Backend (Microservices)
+| Technology | Purpose |
+|---|---|
+| **Node.js + Express** | API server for every microservice |
+| **MongoDB + Mongoose** | Primary database (one DB per service) |
+| **Redis** | OTP & session caching (auth-service) |
+| **JWT (jsonwebtoken)** | Stateless authentication tokens |
+| **Nodemailer + Gmail** | Transactional email (OTP, password reset) |
+| **Bcrypt.js** | Password hashing |
+| **Winston** | Structured logging |
+
+### AI & External APIs
+| Technology | Purpose |
+|---|---|
+| **Google Gemini 2.0 Flash** | AI mock interview questions & scoring |
+| **Judge0 API (RapidAPI)** | Remote code execution for coding tasks |
+| **Google reCAPTCHA v2** | Auth form bot protection |
+
+### Infrastructure
+| Technology | Purpose |
+|---|---|
+| **Docker + Docker Compose** | Containerisation & orchestration |
+| **Nginx** | API Gateway — routes `/api/*` to each microservice |
+| **MongoDB (Docker)** | Persistent data volumes |
+| **Redis (Docker)** | In-memory cache for OTPs |
+
+---
+
+## 🌐 Service Port Map
+
+| Service | Internal Port | API Prefix |
+|---|---|---|
+| API Gateway (Nginx) | `5000` | `/api/*` |
+| Auth Service | `5001` | `/api/auth` |
+| Profile Service | `5002` | `/api/profile` |
+| Job Service | `5003` | `/api/jobs` |
+| Application Service | `5004` | `/api/applications` |
+| Notification Service | `5005` | `/api/notifications` |
+| Skills Service | `5006` | `/api/skills` |
+| Quiz Service | `5007` | `/api/quiz` |
+| Announcement Service | `5008` | `/api/announcements` |
+| Hackathon Service | `5009` | `/api/hackathons` |
+| Task Service | `5010` | `/api/tasks` |
+| Interview Service | `5011` | `/api/interview` |
+| Messaging Service | `5012` | `/api/messaging` |
+| Frontend (React) | `3000` | — |
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root directory. Required variables:
+
+```env
+# General
+NODE_ENV=production
+JWT_SECRET=<your-strong-secret>
+SKIP_CAPTCHA_VERIFICATION=true    # Set to false in production
+
+# MongoDB (one per service)
+MONGO_URI_AUTH=mongodb://mongo:27017/authdb
+MONGO_URI_PROFILE=mongodb://mongo:27017/profiledb
+MONGO_URI_JOB=mongodb://mongo:27017/jobdb
+MONGO_URI_APP=mongodb://mongo:27017/applicationdb
+MONGO_URI_NOTIFY=mongodb://mongo:27017/notificationdb
+MONGO_URI_QUIZ=mongodb://mongo:27017/quizdb
+MONGO_URI_ANNOUNCE=mongodb://mongo:27017/announcedb
+MONGO_URI_TASK=mongodb://mongo:27017/taskdb
+MONGO_URI_HACKATHON=mongodb://mongo:27017/hackathondb
+MONGO_URI_INTERVIEW=mongodb://mongo:27017/interview-service
+
+# Redis
+REDIS_URL=redis://redis-cache:6379
+
+# Email (Gmail App Password)
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASS=xxxx xxxx xxxx xxxx     # 16-char Gmail App Password
+
+# reCAPTCHA (get from console.cloud.google.com)
+RECAPTCHA_SECRET_KEY=<server-key>
+REACT_APP_RECAPTCHA_SITE_KEY=<client-key>
+
+# TPO Admin
+TPO_ADMIN_EMAIL=your-tpo@gmail.com
+
+# AI & External APIs
+GEMINI_API_KEY=<your-gemini-api-key>
+JUDGE0_API_KEY=<your-rapidapi-key>
+JUDGE0_API_HOST=judge0-ce.p.rapidapi.com
+
+# Internal Service URLs (Docker network)
+AUTH_SERVICE_URL=http://auth-service:5001
+PROFILE_SERVICE_URL=http://profile-service:5002
+JOB_SERVICE_URL=http://job-service:5003
+APPLICATION_SERVICE_URL=http://application-service:5004
+NOTIFICATION_SERVICE_URL=http://notification-service:5005
+```
+
+---
+
+## 👥 User Roles
+
+| Role | Access |
+|---|---|
+| **Student** | Browse jobs, apply, take quizzes & coding tasks, AI mock interviews, hackathons |
+| **Recruiter** | Post jobs, manage applicants, create quizzes & coding tasks |
+| **Placement Cell (TPO)** | Full admin — all recruiter features + announcements, hackathon management, TPO dashboard |
+
+---
+
+## ✨ Key Features
+
+- 🔐 **Secure Auth** — JWT with OTP email verification & forgot-password flow
+- 💼 **Job Portal** — Browse, filter, and apply to placement drives
+- 📋 **Application Tracker** — Students and recruiters can track application status
+- 📝 **MCQ Quizzes** — TPO/Recruiters attach quizzes to job listings
+- 💻 **Coding Tasks** — Remote code execution via Judge0 with real-time results
+- 🤖 **AI Mock Interviews** — Conversational interview prep powered by Google Gemini
+- 🏆 **Hackathons** — Create, register for, and manage team hackathon events
+- 📢 **Announcements** — TPO broadcasts to all students
+- 💬 **Messaging** — Direct messaging between users
+- 🔔 **Notifications** — In-app notification center
+
+---
+
+## 🐛 Troubleshooting
+
+| Issue | Fix |
+|---|---|
+| Email OTP not sending | Check `EMAIL_USER` and `EMAIL_PASS` in `.env`. Use a Gmail **App Password** (not your regular password). |
+| Mock Interview fails | Ensure `GEMINI_API_KEY` is valid. Free tier has per-minute rate limits — wait ~30s and retry. |
+| Coding task not working | Verify `JUDGE0_API_KEY` on RapidAPI dashboard is active. |
+| Container failing to start | Run `docker compose down && docker compose up --build` to force a clean rebuild. |
+
+---
+
+## 📜 License
+
+This project was built by students of **Bennett University (The Times Group)** as a final year placement portal.
