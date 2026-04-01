@@ -27,6 +27,23 @@ http://localhost:3000
 > The API Gateway is exposed at `http://localhost:5000`. The React frontend is at `http://localhost:3000`.
 
 ---
+📸 Project Snapshots
+🔐 Login Page
+<p align="center"> <img src="assets/images/login page.png" width="800"/> </p>
+🎓 Student Features
+📝 Apply for Job
+<p align="center"> <img src="assets/images/apply for job.png" width="800"/> </p>
+💻 Coding Task
+<p align="center"> <img src="assets/images/coding task.png" width="800"/> </p>
+🤖 AI Interview
+<p align="center"> <img src="assets/images/ss1 intervioew.png" width="800"/> </p>
+📊 Student Dashboard
+<p align="center"> <img src="assets/images/student dashboard.png" width="800"/> </p>
+🧑‍💼 TPO Dashboard
+<p align="center"> <img src="assets/images/tpo dashboard.png" width="800"/> </p>
+🛠️ Admin Dashboard
+<p align="center"> <img src="assets/images/admin dashboard.png" width="800"/> </p>
+
 
 ## 📁 Project Structure
 
@@ -210,8 +227,3 @@ NOTIFICATION_SERVICE_URL=http://notification-service:5005
 | Coding task not working | Verify `JUDGE0_API_KEY` on RapidAPI dashboard is active. |
 | Container failing to start | Run `docker compose down && docker compose up --build` to force a clean rebuild. |
 
----
-
-## 📜 License
-
-This project was built by students of **Bennett University (The Times Group)** as a final year placement portal.
