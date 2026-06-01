@@ -1,4 +1,5 @@
 # 🎓 BU Placement Portal
+deployed at https://buplacom.vercel.app/
 
 A full-stack **Microservices-based Placement Management System** built for Bennett University. It connects Students, Recruiters, and the Training & Placement Office (TPO) in one unified platform — featuring AI-powered mock interviews, job applications, hackathons, quizzes, coding tasks, real-time messaging, and more.
 
